@@ -67,3 +67,4 @@ export async function getBlockByNumberFromCChain(number: string) {
     
     return result;
 }
+

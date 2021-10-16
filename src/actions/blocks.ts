@@ -48,3 +48,40 @@ export class GetBlockByNumber extends Action {
     }
   }
 }
+
+export class GetXBlocksFromNthFromCChain extends Action {
+  constructor() {
+    super();
+    this.name = "GetXBlocksFromNthFromCChain";
+    this.description = "I return information about Avalanche Block";
+    this.outputExample = {};
+    this.inputs = {
+      blocknumber: { required: true },
+      count: { required: true }
+    };
+  }
+
+  async run({ params }) {
+    const cChainArray = [];
+    let returnData;
+    let k = 0;
+
+    const blockNumber = params.blocknumber;
+    const count = params.count;
+
+    for (let i = blockNumber - count; i < blockNumber; ++i)
+    {
+        let hashValue = await cChainMethods.getBlockByNumberFromCChain(i.toString());
+        
+        if (hashValue[0] == 1) {
+            returnData = hashValue[1];
+            return { returnData };
+        } else {
+            cChainArray[k] = hashValue[1];
+            k++;
+        }
+    }
+
+    return { cChainArray };
+  }
+}
