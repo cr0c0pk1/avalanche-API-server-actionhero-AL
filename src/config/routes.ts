@@ -6,6 +6,7 @@ export const DEFAULT = {
         { path: "/swagger", action: "swagger" },
         { path: "/createChatRoom", action: "createChatRoom" },
         { path: "/blocks/hash/:hash", action: "GetBlockByHash" },
+        { path: "/blocks/number/:blocknumber", action: "GetBlockByNumber" },
       ],
 
       /* ---------------------

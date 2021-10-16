@@ -21,3 +21,30 @@ export class GetBlockByHash extends Action {
   }
 }
 
+export class GetBlockByNumber extends Action {
+  constructor() {
+    super();
+    this.name = "GetBlockByNumber";
+    this.description = "I return information about Avalanche Block";
+    this.outputExample = {};
+    this.inputs = {
+      blocknumber: { required: true }
+    };
+  }
+
+  async run({ params }) {
+    const cChainNumber = await cChainMethods.getBlockByNumberFromCChain(params.blocknumber);
+
+    let returnData;
+
+    if (cChainNumber[0] == 1) {
+      returnData = cChainNumber[1];
+
+      return { returnData };
+    } else {
+      returnData = cChainNumber[0];
+
+      return { returnData };
+    }
+  }
+}
