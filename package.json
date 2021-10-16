@@ -8,14 +8,15 @@
   },
   "dependencies": {
     "actionhero": "27.1.5",
-    "ws": "latest",
+    "dotenv": "^10.0.0",
     "ioredis": "latest",
     "ioredis-mock": "latest",
-    "winston": "latest"
+    "winston": "latest",
+    "ws": "latest"
   },
   "devDependencies": {
-    "@types/node": "latest",
     "@types/jest": "latest",
+    "@types/node": "latest",
     "jest": "latest",
     "prettier": "latest",
     "ts-jest": "latest",

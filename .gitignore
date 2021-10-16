@@ -21,3 +21,6 @@ cache.dump
 # Editor-specific
 /nbproject/*
 /.idea/*
+
+# Environment files
+.env
