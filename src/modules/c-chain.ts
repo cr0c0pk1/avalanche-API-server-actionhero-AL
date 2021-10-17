@@ -138,3 +138,31 @@ export async function getAddressInfoFromCChain(cChainAddress: string) {
 
     return [web3.fromWei(`${balanceResult[1]}`, 'ether'), parseInt(responseForTransactionCount.data.result)];
 }
+
+export async function getXPendingTransactionsAfterNthFromCChain(n: number, x: number) {
+    let result;
+
+    await axios.post(process.env.C_CHAIN_BC_CLIENT_BLOCK_ENDPOINT, {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'eth_getBlockByNumber',
+        params: ["pending", true]
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+    }).then(response => {
+        result = [0, (response.data.result.transactions).slice(n - x, n)];
+    }).catch(error => {
+        if(!error.response) {
+            console.log("connection refused to avalanche client");
+            result = [1, JSON.parse('{"result":"connection refused to avalanche client"}')];
+        } else {
+            console.log("api call rejected or not enough transactions");
+            result = [1, JSON.parse('{"result":"api call rejected or not enough transactions"}')];
+        }
+    });
+    
+    return result;
+}
