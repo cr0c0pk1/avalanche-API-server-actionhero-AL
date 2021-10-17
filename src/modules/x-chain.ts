@@ -71,3 +71,16 @@ export async function getAddressInfoByHashFromXChain(address: string) {
     
     return [balanceResult[1].balances, responseForAssets.data.result];
 }
+
+export async function getXTransactionsAfterNthFromAddressFromXChain(address: string, n: number, x: number) {
+    let response;
+
+    try {
+        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT + `transactions?address=${address}&limit=1&sort=timestamp-desc`}`);
+    } catch (error) {
+        
+        return [1, error];
+    }
+    
+    return [0, response.data.transactions];
+}
