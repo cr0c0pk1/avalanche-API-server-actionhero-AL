@@ -153,14 +153,28 @@ export class GetRecentTransactionsFromXChain extends Action {
 
     xChainTransactions = await xChainMethods.getRecentTransactions();
 
-    if (xChainTransactions[0] == 1) {
-      returnData = xChainTransactions[1];
+    returnData = xChainTransactions[1];
 
-      return { returnData };
-    } else {
-      returnData = xChainTransactions[1];
+    return { returnData };
+  }
+}
 
-      return { returnData };
-    }
+export class GetRecentTransactionsFromPChain extends Action {
+  constructor() {
+    super();
+    this.name = "GetRecentTransactionsFromPChain";
+    this.description = "I return information about Avalanche recent transactions from P-chain";
+    this.outputExample = {};
+  }
+
+  async run() {
+    let pChainTransactions;
+    let returnData;
+
+    pChainTransactions = await pChainMethods.getRecentTransactions();
+
+    returnData = pChainTransactions[1];
+
+    return { returnData };
   }
 }
