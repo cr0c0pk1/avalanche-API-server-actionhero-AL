@@ -10,6 +10,7 @@ export const DEFAULT = {
         { path: "/blocks/numbers/:blocknumber/:count", action: "GetXBlocksFromNthFromCChain" },
         { path: "/transactions/hash/:hash", action: "GetTransactionByHash" },
         { path: "/transactions/:address/:n/:x", action: "GetXTransactionsAfterNthFromAddress" },
+        { path: "/transactions/:n/:x", action: "GetXPendingTransactionsAfterNth" },
       ],
 
       /* ---------------------

@@ -104,3 +104,37 @@ export class GetXTransactionsAfterNthFromAddress extends Action {
     }
   }
 }
+
+export class GetXPendingTransactionsAfterNth extends Action {
+  constructor() {
+    super();
+    this.name = "GetXPendingTransactionsAfterNth";
+    this.description = "I return information about Avalanche pending transactions";
+    this.outputExample = {};
+    this.inputs = {
+      n: { required: true },
+      x: { required: true }
+    };
+  }
+
+  async run({ params }) {
+    let cChainTransactions;
+    let returnData;
+
+    if (params.n > 0 && params.x > 0) {
+      cChainTransactions = await cChainMethods.getXPendingTransactionsAfterNthFromCChain(params.n, params.x);
+
+      if (cChainTransactions[0] == 1) {
+        returnData = cChainTransactions[1];
+
+        return { returnData };
+      } else {
+        returnData = cChainTransactions[1]
+
+        return { returnData };
+      }
+    } else {
+      return { result: "n and x < 0" };
+    }
+  }
+}
