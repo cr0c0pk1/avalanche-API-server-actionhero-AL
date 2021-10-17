@@ -166,3 +166,15 @@ export async function getXPendingTransactionsAfterNthFromCChain(n: number, x: nu
     
     return result;
 }
+
+export async function getXTransactionsAfterNthFromAddressFromCChain(address: string, n: number, x: number) {
+    let response;
+
+    try {
+        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT}` + `ctransactions?address=${address}`);
+    } catch (error) {
+        return 1;
+    }
+
+    return (response.data.transactions).slice(n - x, n);
+}

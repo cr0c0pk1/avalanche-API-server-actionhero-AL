@@ -89,16 +89,16 @@ export class GetXTransactionsAfterNthFromAddress extends Action {
 
         return { returnData };
       }
-    // } else if ((params.address).slice(0, 2) == C_CHAIN) {
-    //   cChainTransactions = await cChainMethods.getXTransactionsAfterNthFromAddressFromCChain(params.address, params.n, params.x);
+    } else if ((params.address).slice(0, 2) == C_CHAIN) {
+      cChainTransactions = await cChainMethods.getXTransactionsAfterNthFromAddressFromCChain(params.address, params.n, params.x);
 
-    //   if (cChainTransactions == 1) {
-    //     return { result: "api call rejected or not enough transactions" };
-    //   } else {
-    //     returnData = cChainTransactions;
+      if (cChainTransactions == 1) {
+        return { result: "api call rejected or not enough transactions" };
+      } else {
+        returnData = cChainTransactions;
 
-    //     return { returnData };
-    //   }
+        return { returnData };
+      }
     } else {
       return { result: "wrong chain" };
     }
