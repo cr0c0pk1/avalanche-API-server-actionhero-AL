@@ -47,3 +47,60 @@ export class GetTransactionByHash extends Action {
     }
   }
 }
+
+export class GetXTransactionsAfterNthFromAddress extends Action {
+  constructor() {
+    super();
+    this.name = "GetXTransactionsAfterNthFromAddress";
+    this.description = "I return information about Avalanche transactions from address";
+    this.outputExample = {};
+    this.inputs = {
+      address: { required: true },
+      n: { required: true },
+      x: { required: true }
+    };
+  }
+
+  async run({ params }) {
+    let xChainTransactions;
+    let pChainTransactions;
+    let cChainTransactions;
+    let returnData;
+
+    if ((params.address).charAt(0) == X_CHAIN) {
+      xChainTransactions = await xChainMethods.getXTransactionsAfterNthFromAddressFromXChain(params.address, params.n, params.x);
+
+      if (xChainTransactions[0] == 1) {
+        returnData = xChainTransactions[1];
+        
+        return { returnData };
+      } else {
+        returnData = xChainTransactions[1];
+
+        return { returnData };
+      }
+    } else if ((params.address).charAt(0) == P_CHAIN) {
+      pChainTransactions = await pChainMethods.getXTransactionsAfterNthFromAddressFromPChain(params.address, params.n, params.x);
+      
+      if (pChainTransactions == 1) {
+        return { result: "api call rejected or not enough transactions" };
+      } else {
+        returnData = pChainTransactions;
+
+        return { returnData };
+      }
+    // } else if ((params.address).slice(0, 2) == C_CHAIN) {
+    //   cChainTransactions = await cChainMethods.getXTransactionsAfterNthFromAddressFromCChain(params.address, params.n, params.x);
+
+    //   if (cChainTransactions == 1) {
+    //     return { result: "api call rejected or not enough transactions" };
+    //   } else {
+    //     returnData = cChainTransactions;
+
+    //     return { returnData };
+    //   }
+    } else {
+      return { result: "wrong chain" };
+    }
+  }
+}
