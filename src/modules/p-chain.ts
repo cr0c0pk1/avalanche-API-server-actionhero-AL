@@ -45,3 +45,14 @@ export async function getAddressInfoFromPChain(address: string) {
     return balanceResult;
 }
 
+export async function getXTransactionsAfterNthFromAddressFromPChain(address: string, n: number, x: number) {
+    let response;
+
+    try {
+        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT}` + `transactions?address=${address}`);
+    } catch (error) {
+        return 1;
+    }
+
+    return (response.data.transactions).slice(n - x, n);
+}
