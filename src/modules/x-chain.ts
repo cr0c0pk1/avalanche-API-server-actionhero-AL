@@ -84,3 +84,15 @@ export async function getXTransactionsAfterNthFromAddressFromXChain(address: str
     
     return [0, response.data.transactions];
 }
+
+export async function getRecentTransactions() {
+    let response;
+
+    try {
+        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT + `transactions?chainID=2JVSBoinj9C2J33VntvzYtVJNZdN2NKiwwKjcumHUWEb5DbBrm&limit=1&sort=timestamp-desc`}`);
+    } catch (error) {
+        return [1];
+    }
+    
+    return [0, response.data.transactions[0]];
+}
