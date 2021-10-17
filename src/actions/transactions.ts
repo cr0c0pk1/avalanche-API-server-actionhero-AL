@@ -138,3 +138,29 @@ export class GetXPendingTransactionsAfterNth extends Action {
     }
   }
 }
+
+export class GetRecentTransactionsFromXChain extends Action {
+  constructor() {
+    super();
+    this.name = "GetRecentTransactionsFromXChain";
+    this.description = "I return information about Avalanche recent transactions from X-chain";
+    this.outputExample = {};
+  }
+
+  async run() {
+    let xChainTransactions;
+    let returnData;
+
+    xChainTransactions = await xChainMethods.getRecentTransactions();
+
+    if (xChainTransactions[0] == 1) {
+      returnData = xChainTransactions[1];
+
+      return { returnData };
+    } else {
+      returnData = xChainTransactions[1];
+
+      return { returnData };
+    }
+  }
+}

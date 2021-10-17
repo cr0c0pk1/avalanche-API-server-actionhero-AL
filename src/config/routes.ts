@@ -11,6 +11,7 @@ export const DEFAULT = {
         { path: "/transactions/hash/:hash", action: "GetTransactionByHash" },
         { path: "/transactions/:address/:n/:x", action: "GetXTransactionsAfterNthFromAddress" },
         { path: "/transactions/:n/:x", action: "GetXPendingTransactionsAfterNth" },
+        { path: "/transactions/recentxchain", action: "GetRecentTransactionsFromXChain" },
       ],
 
       /* ---------------------
