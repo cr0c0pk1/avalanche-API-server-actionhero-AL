@@ -68,3 +68,30 @@ export async function getBlockByNumberFromCChain(number: string) {
     return result;
 }
 
+export async function getTransactionByHashFromCChain(hash: string) {
+    let result;
+
+    await axios.post(process.env.C_CHAIN_BC_CLIENT_BLOCK_ENDPOINT, {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'eth_getTransactionByHash',
+        params: [`${hash}`]
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+    }).then(response => {
+        result = [0, response.data];
+    }).catch(error => {
+        if(!error.response) {
+            console.log("connection refused to avalanche client");
+            result = [1];
+        } else {
+            console.log(error.response.data);
+            result = [1];
+        }
+    });
+
+    return result;
+}
