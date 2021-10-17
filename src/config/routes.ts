@@ -8,6 +8,7 @@ export const DEFAULT = {
         { path: "/blocks/hash/:hash", action: "GetBlockByHash" },
         { path: "/blocks/number/:blocknumber", action: "GetBlockByNumber" },
         { path: "/blocks/numbers/:blocknumber/:count", action: "GetXBlocksFromNthFromCChain" },
+        { path: "/transactions/hash/:hash", action: "GetTransactionByHash" },
       ],
 
       /* ---------------------
