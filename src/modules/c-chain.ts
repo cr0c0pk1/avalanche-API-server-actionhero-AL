@@ -1,4 +1,3 @@
-//import * as axios from 'axios';
 import axios  from 'axios';
 import * as dotenv from 'dotenv';
 import * as web3 from 'web3-utils';
@@ -94,4 +93,48 @@ export async function getTransactionByHashFromCChain(hash: string) {
     });
 
     return result;
+}
+
+export async function getAddressInfoFromCChain(cChainAddress: string) {
+    let balanceResult;
+
+    await axios.post(process.env.C_CHAIN_BC_CLIENT_BLOCK_ENDPOINT, {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'eth_getBalance',
+        params: [`${cChainAddress}`, 'latest']
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+    }).then(response => {
+        balanceResult = [0, response.data.result];
+    }).catch(error => {
+        if(!error.response) {
+            console.log("connection refused to avalanche client");
+            balanceResult = [1, JSON.parse('{"result":"connection refused to avalanche client"}')];
+        } else {
+            console.log(error.response.data);
+            balanceResult = [1, error.response.data];
+        }
+    });
+    
+    if (balanceResult[0] == 1) {
+        return balanceResult;
+    }
+
+    const responseForTransactionCount = await axios.post(process.env.C_CHAIN_BC_CLIENT_BLOCK_ENDPOINT, {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'eth_getTransactionCount',
+        params: [`${cChainAddress}`, 'latest']
+    }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+    });
+
+    return [web3.fromWei(`${balanceResult[1]}`, 'ether'), parseInt(responseForTransactionCount.data.result)];
 }
