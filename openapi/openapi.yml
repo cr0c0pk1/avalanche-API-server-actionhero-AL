@@ -27,7 +27,7 @@ paths:
      content:
       application/json:
        schema: 
-        type: array
+        type: object
     500:
      description: failure fetching address details
  
@@ -52,8 +52,6 @@ paths:
       application/json:
         schema:
           type: object
-          required:
-            - result
           properties:
            result:
             type: object
@@ -81,8 +79,6 @@ paths:
       application/json:
         schema:
           type: object
-          required:
-            - result
           properties:
            result:
             type: object
@@ -101,21 +97,7 @@ paths:
      content:
       application/json:
         schema:
-          type: array
-          required:
-            - stringProperty
-            - integerProperty
-            - integerProperty1
-            - stringProperty1
-          properties:
-            stringProperty:
-              type: string
-            integerProperty:
-              type: integer
-            stringProperty1:
-              type: string
-            integerProperty1:
-              type: integer
+          type: object
     500:
      description: failure fetching network
 
@@ -146,7 +128,7 @@ paths:
      content:
       application/json:
         schema:
-          type: array
+          type: object
     500:
      description: failure fetching transactions
 
@@ -171,8 +153,6 @@ paths:
       application/json:
         schema:
           type: object
-          required:
-            - result
           properties:
            result:
             type: object
@@ -213,7 +193,7 @@ paths:
      content:
       application/json:
         schema:
-          type: array
+          type: object
     500:
      description: failure fetching transactions
 

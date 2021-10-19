@@ -1,5 +1,5 @@
 import { Action } from "actionhero";
-import * as cChainMethods from './../modules/c-chain';
+import * as cChainMethods from "./../modules/c-chain";
 
 export class GetBlockByHash extends Action {
   constructor() {
@@ -8,12 +8,14 @@ export class GetBlockByHash extends Action {
     this.description = "I return information about Avalanche Block";
     this.outputExample = {};
     this.inputs = {
-      hash: { required: true }
+      hash: { required: true },
     };
   }
 
   async run({ params }) {
-    const blockFromCChain = await cChainMethods.getBlockByHashFromCChain(params.hash);
+    const blockFromCChain = await cChainMethods.getBlockByHashFromCChain(
+      params.hash
+    );
 
     const returnData = blockFromCChain[1];
 
@@ -28,12 +30,14 @@ export class GetBlockByNumber extends Action {
     this.description = "I return information about Avalanche Block";
     this.outputExample = {};
     this.inputs = {
-      blocknumber: { required: true }
+      blocknumber: { required: true },
     };
   }
 
   async run({ params }) {
-    const cChainNumber = await cChainMethods.getBlockByNumberFromCChain(params.blocknumber);
+    const cChainNumber = await cChainMethods.getBlockByNumberFromCChain(
+      params.blocknumber
+    );
 
     let returnData;
 
@@ -57,7 +61,7 @@ export class GetXBlocksFromNthFromCChain extends Action {
     this.outputExample = {};
     this.inputs = {
       blocknumber: { required: true },
-      count: { required: true }
+      count: { required: true },
     };
   }
 
@@ -69,17 +73,18 @@ export class GetXBlocksFromNthFromCChain extends Action {
     const blockNumber = params.blocknumber;
     const count = params.count;
 
-    for (let i = blockNumber - count; i < blockNumber; ++i)
-    {
-        let hashValue = await cChainMethods.getBlockByNumberFromCChain(i.toString());
-        
-        if (hashValue[0] == 1) {
-            returnData = hashValue[1];
-            return { returnData };
-        } else {
-            cChainArray[k] = hashValue[1];
-            k++;
-        }
+    for (let i = blockNumber - count; i < blockNumber; ++i) {
+      let hashValue = await cChainMethods.getBlockByNumberFromCChain(
+        i.toString()
+      );
+
+      if (hashValue[0] == 1) {
+        returnData = hashValue[1];
+        return { returnData };
+      } else {
+        cChainArray[k] = hashValue[1];
+        k++;
+      }
     }
 
     return { cChainArray };

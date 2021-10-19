@@ -1,13 +1,12 @@
 import { Action } from "actionhero";
 
-import * as cChainMethods from './../modules/c-chain';
-import * as pChainMethods from './../modules/p-chain';
-import * as xChainMethods from './../modules/x-chain';
+import * as cChainMethods from "./../modules/c-chain";
+import * as pChainMethods from "./../modules/p-chain";
+import * as xChainMethods from "./../modules/x-chain";
 
-const X_CHAIN = 'X';
-const P_CHAIN = 'P';
-const C_CHAIN = '0x';
-
+const X_CHAIN = "X";
+const P_CHAIN = "P";
+const C_CHAIN = "0x";
 
 export class GetAddressInfoByHash extends Action {
   constructor() {
@@ -16,7 +15,7 @@ export class GetAddressInfoByHash extends Action {
     this.description = "I return information about Avalanche Address";
     this.outputExample = {};
     this.inputs = {
-      hash: { required: true }
+      hash: { required: true },
     };
   }
 
@@ -26,8 +25,9 @@ export class GetAddressInfoByHash extends Action {
     let addressInfoFromPChain;
     let returnData;
 
-    if ((params.hash).charAt(0) == X_CHAIN) {
-      addressInfoFromXChain = await xChainMethods.getAddressInfoByHashFromXChain(params.hash);
+    if (params.hash.charAt(0) == X_CHAIN) {
+      addressInfoFromXChain =
+        await xChainMethods.getAddressInfoByHashFromXChain(params.hash);
 
       if (addressInfoFromXChain[0] == 1) {
         returnData = addressInfoFromXChain[1];
@@ -38,8 +38,10 @@ export class GetAddressInfoByHash extends Action {
 
         return { returnData };
       }
-    } else if ((params.hash).charAt(0) == P_CHAIN) {
-      addressInfoFromPChain = await pChainMethods.getAddressInfoFromPChain(params.hash);
+    } else if (params.hash.charAt(0) == P_CHAIN) {
+      addressInfoFromPChain = await pChainMethods.getAddressInfoFromPChain(
+        params.hash
+      );
 
       if (addressInfoFromPChain[0] == 1) {
         returnData = addressInfoFromPChain[1];
@@ -50,8 +52,10 @@ export class GetAddressInfoByHash extends Action {
 
         return { returnData };
       }
-    } else if ((params.hash).slice(0, 2) == C_CHAIN){
-      addressInfoFromCChain = await cChainMethods.getAddressInfoFromCChain(params.hash);
+    } else if (params.hash.slice(0, 2) == C_CHAIN) {
+      addressInfoFromCChain = await cChainMethods.getAddressInfoFromCChain(
+        params.hash
+      );
 
       if (addressInfoFromCChain[0] == 1) {
         returnData = addressInfoFromCChain[1];

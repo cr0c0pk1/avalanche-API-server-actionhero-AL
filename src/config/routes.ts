@@ -7,14 +7,29 @@ export const DEFAULT = {
         { path: "/createChatRoom", action: "createChatRoom" },
         { path: "/blocks/hash/:hash", action: "GetBlockByHash" },
         { path: "/blocks/number/:blocknumber", action: "GetBlockByNumber" },
-        { path: "/blocks/numbers/:blocknumber/:count", action: "GetXBlocksFromNthFromCChain" },
+        {
+          path: "/blocks/numbers/:blocknumber/:count",
+          action: "GetXBlocksFromNthFromCChain",
+        },
         { path: "/transactions/hash/:hash", action: "GetTransactionByHash" },
-        { path: "/transactions/:address/:n/:x", action: "GetXTransactionsAfterNthFromAddress" },
-        { path: "/transactions/:n/:x", action: "GetXPendingTransactionsAfterNth" },
-        { path: "/transactions/recentxchain", action: "GetRecentTransactionsFromXChain" },
-        { path: "/transactions/recentpchain", action: "GetRecentTransactionsFromPChain" },
+        {
+          path: "/transactions/:address/:n/:x",
+          action: "GetXTransactionsAfterNthFromAddress",
+        },
+        {
+          path: "/transactions/:n/:x",
+          action: "GetXPendingTransactionsAfterNth",
+        },
+        {
+          path: "/transactions/recentxchain",
+          action: "GetRecentTransactionsFromXChain",
+        },
+        {
+          path: "/transactions/recentpchain",
+          action: "GetRecentTransactionsFromPChain",
+        },
         { path: "/address/hash/:hash", action: "GetAddressInfoByHash" },
-        { path: "/network", action: "GetNetWorkActivity" }
+        { path: "/network", action: "GetNetWorkActivity" },
       ],
 
       /* ---------------------

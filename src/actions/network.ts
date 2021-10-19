@@ -1,6 +1,6 @@
 import { Action } from "actionhero";
 
-import * as network from './../modules/network';
+import * as network from "./../modules/network";
 
 export class GetNetWorkActivity extends Action {
   constructor() {

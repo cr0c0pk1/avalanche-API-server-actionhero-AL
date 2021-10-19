@@ -1,98 +1,127 @@
-import axios  from 'axios';
-import * as dotenv from 'dotenv';
+import axios, { AxiosResponse } from "axios";
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
 export async function getTransactionByIdFromXChain(txId: string) {
-    let response;
+  let response;
 
-    try {
-        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT + `transactions/${txId}`}`);
-    } catch (error) {
-        return 1;
-    }
-    
-    return response.data;
+  try {
+    response = await axios.get(
+      `${process.env.ORTELIUS_API_ENDPOINT + `transactions/${txId}`}`
+    );
+  } catch (error) {
+    return 1;
+  }
+
+  return response.data;
 }
 
 export async function getAddressInfoByHashFromXChain(address: string) {
-    let balanceResult;
+  let balanceResult;
 
-    await axios.post(process.env.X_CHAIN_BC_CLIENT_BLOCK_ENDPOINT, {
-        jsonrpc: '2.0',
+  await axios
+    .post(
+      process.env.X_CHAIN_BC_CLIENT_BLOCK_ENDPOINT,
+      {
+        jsonrpc: "2.0",
         id: 1,
-        method: 'avm.getAllBalances',
+        method: "avm.getAllBalances",
         params: {
-                address: `${address}`
-        }
-    }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          address: `${address}`,
         },
-    }).then(response => {
-        balanceResult = [0, response.data.result];
-    }).catch(error => {
-        if(!error.response) {
-            console.log("connection refused to avalanche client");
-            balanceResult = [1, JSON.parse('{"result":"connection refused to avalanche client"}')];
-        } else {
-            console.log(error.response.data);
-            balanceResult = [1, error.response.data];
-        }
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    )
+    .then((response: AxiosResponse<any>) => {
+      balanceResult = [0, response.data.result];
+    })
+    .catch((error) => {
+      if (!error.response) {
+        console.log("connection refused to avalanche client");
+        balanceResult = [
+          1,
+          JSON.parse('{"result":"connection refused to avalanche client"}'),
+        ];
+      } else {
+        console.log(error.response.data);
+        balanceResult = [1, error.response.data];
+      }
     });
 
-    if (balanceResult[0] == 1 || typeof balanceResult[1] == 'undefined') {
-        balanceResult[0] = 1
-        return balanceResult;
-    }
+  if (balanceResult[0] == 1 || typeof balanceResult[1] == "undefined") {
+    balanceResult[0] = 1;
+    return balanceResult;
+  }
 
-    let responseForAssets;
+  let responseForAssets;
 
-    if (balanceResult[1].balances.length <= 0) {
-        return [balanceResult[1].balances, 'AVAX'];
-    }
+  if (balanceResult[1].balances.length <= 0) {
+    return [balanceResult[1].balances, "AVAX"];
+  }
 
-    for(let i = 0; i < balanceResult[1].balances.length; i++) {
-        responseForAssets = await axios.post(process.env.X_CHAIN_BC_CLIENT_BLOCK_ENDPOINT, {
-            jsonrpc: '2.0',
-            id: 1,
-            method: 'avm.getAssetDescription',
-            params: {
-                'assetID' :`${balanceResult[1].balances[i].asset}`
-            }
-        }, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            },
-        });
-    }
-    
-    return [balanceResult[1].balances, responseForAssets.data.result];
+  for (let i = 0; i < balanceResult[1].balances.length; i++) {
+    responseForAssets = await axios.post(
+      process.env.X_CHAIN_BC_CLIENT_BLOCK_ENDPOINT,
+      {
+        jsonrpc: "2.0",
+        id: 1,
+        method: "avm.getAssetDescription",
+        params: {
+          assetID: `${balanceResult[1].balances[i].asset}`,
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
+  }
+
+  return [balanceResult[1].balances, responseForAssets.data.result];
 }
 
-export async function getXTransactionsAfterNthFromAddressFromXChain(address: string, n: number, x: number) {
-    let response;
+export async function getXTransactionsAfterNthFromAddressFromXChain(
+  address: string,
+  n: number,
+  x: number
+) {
+  let response;
 
-    try {
-        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT + `transactions?address=${address}&limit=1&sort=timestamp-desc`}`);
-    } catch (error) {
-        
-        return [1, error];
-    }
-    
-    return [0, response.data.transactions];
+  try {
+    response = await axios.get(
+      `${
+        process.env.ORTELIUS_API_ENDPOINT +
+        `transactions?address=${address}&limit=1&sort=timestamp-desc`
+      }`
+    );
+  } catch (error) {
+    return [1, error];
+  }
+
+  return [0, response.data.transactions];
 }
 
 export async function getRecentTransactions() {
-    let response;
+  let response;
 
-    try {
-        response = await axios.get(`${process.env.ORTELIUS_API_ENDPOINT + `transactions?chainID=2JVSBoinj9C2J33VntvzYtVJNZdN2NKiwwKjcumHUWEb5DbBrm&limit=1&sort=timestamp-desc`}`);
-    } catch (error) {
-        return [1];
-    }
-    
-    return [0, response.data.transactions[0]];
+  try {
+    response = await axios.get(
+      `${
+        process.env.ORTELIUS_API_ENDPOINT +
+        `transactions?chainID=2JVSBoinj9C2J33VntvzYtVJNZdN2NKiwwKjcumHUWEb5DbBrm&limit=1&sort=timestamp-desc`
+      }`
+    );
+  } catch (error) {
+    return [1];
+  }
+
+  return [0, response.data.transactions[0]];
 }
