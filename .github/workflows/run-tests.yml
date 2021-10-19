@@ -37,6 +37,9 @@ jobs:
         echo ORTELIUS_API_ENDPOINT="${{secrets.ORTELIUS_API_ENDPOINT}}" >> .env
         cat .env
     
+    - name: Start server
+      run: node src/server.ts
+
     - name: Run tests
       run: |
         npm ci
