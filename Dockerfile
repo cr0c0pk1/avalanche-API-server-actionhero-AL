@@ -1,7 +1,5 @@
 FROM node:16
 
-WORKDIR /usr/src/app
-
 RUN wget http://download.redis.io/redis-stable.tar.gz && \
     tar xvzf redis-stable.tar.gz && \
     cd redis-stable && \
@@ -11,12 +9,14 @@ RUN wget http://download.redis.io/redis-stable.tar.gz && \
     rm -r redis-stable && \
     npm install -g concurrently   
 
-COPY package*.json ./
+WORKDIR /app
+
+COPY package*.json ./app
 
 RUN npm install
 
-COPY . .
+COPY . /app
 
 EXPOSE 4444
 
-CMD concurrently "/usr/bin/redis-server --bind '0.0.0.0'" "sleep 5s; node /usr/src/app/src/server.ts" 
+CMD concurrently "/usr/bin/redis-server --bind '0.0.0.0'" "sleep 5s; node /app/src/server.ts" 
