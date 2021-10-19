@@ -37,9 +37,24 @@ jobs:
         echo ORTELIUS_API_ENDPOINT="${{secrets.ORTELIUS_API_ENDPOINT}}" >> .env
         cat .env
     
-    - name: Start server
-      run: |
+    - name: Install redis-server
+      run:
+        sudo apt-get install -y redis-server redis-tools
+    
+    - name: Verify that redis is up
+      run:
+        redis-cli ping
+      
+    - name: Start redis
+      run:
+        redis-server --daemonize yes
+
+    - name: Install libraries
+      run:
         npm install
+      
+    - name: Start server
+      run:
         node src/server.ts
 
     - name: Run tests
