@@ -93,7 +93,7 @@ jobs:
         echo C_CHAIN_ID="${{secrets.C_CHAIN_ID}}" >> .env
         echo ORTELIUS_API_ENDPOINT="${{secrets.ORTELIUS_API_ENDPOINT}}" >> .env
         cat .env
-
+    
     - name: Docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
