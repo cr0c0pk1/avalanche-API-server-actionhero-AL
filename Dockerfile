@@ -2,7 +2,7 @@ FROM node:16
 
 WORKDIR /usr/src/app
 
-RUN sudo apt-get install -y redis-server && \
+RUN apt-get install -y redis-server && \
     sleep 5s && \
     redis-server --daemonize yes
 
