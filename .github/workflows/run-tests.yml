@@ -38,7 +38,9 @@ jobs:
         cat .env
     
     - name: Start server
-      run: node src/server.ts
+      run: |
+        npm install
+        node src/server.ts
 
     - name: Run tests
       run: |
